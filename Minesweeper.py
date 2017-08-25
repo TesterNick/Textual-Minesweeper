@@ -72,8 +72,7 @@ def choose_language():
     lang = None
     while lang is None:
         try:
-            x = int(input("Пожалуйста выберите язык / "
-                          "Please choose your language\n"
+            x = int(input("Пожалуйста выберите язык / Please choose your language\n"
                           "1 - Русский, 2 - English\n"))
         except (ValueError, TypeError):
             continue
@@ -87,7 +86,7 @@ def choose_language():
 # Difficulty level. Parameters of each level can be adjusted higher
 def choose_level():
     lvl = None
-    while level is None:
+    while lvl is None:
         try:
             x = int(input(output["choose_level"]))
         except (ValueError, TypeError):
@@ -121,8 +120,7 @@ def count_nearby_bombs(y, x):
     return number
 
 
-# Finds neighboring cells. Cells that are outside of the game field
-# are skipped as well as the chosen cell itself.
+# Finds neighboring cells. Cells that are outside of the game field are skipped as well as the chosen cell itself.
 # Returns the list of lists of indices.
 def get_neighbours(x, y):
     neighbours = []
@@ -135,16 +133,14 @@ def get_neighbours(x, y):
 
 
 # Checks if some neighbours should be automatically marked as bombs.
-# Marks a neighbour as a bomb if it is really bomb and have no closed cells
-# around.
+# Marks a neighbour as a bomb if it is really bomb and have no closed cells around.
 def auto_mark_bomb(x, y):
     neighb = get_neighbours(x, y)
     # For each neighbour checks if it is a bomb and if it is not marked.
     for n in neighb:
         bomb = (cells[n[1]][n[0]] == "!" and users_cells[n[1]][n[0]] != "!")
         if bomb:
-            # Checks cells around the neighbour and if it has closed
-            # cells that are not bombs returns False.
+            # Checks cells around the neighbour and if it has closed cells that are not bombs returns False.
             around = get_neighbours(n[0], n[1])
             for cell in around:
                 closed = (users_cells[cell[1]][cell[0]] == "#")
@@ -155,9 +151,8 @@ def auto_mark_bomb(x, y):
             return True
 
 
-# Validates users input. Accepts letter and number in any order.
-# Returns the list of x, y, and mark. Mark shows if the cell should be opened
-# or just marked as a bomb.
+# Validates users input. Accepts letter and number in any order. Returns the list of x, y, and mark.
+# Mark shows if the cell should be opened or just marked as a bomb.
 def users_input():
     while True:
         x = y = None
@@ -193,24 +188,48 @@ def mark_cell(x, y):
     return True
 
 
-# Opens cells and changes data arrays. Returns False if player died
-# and True otherwise.
+# Checks if the cell is not a bomb, changes data in both arrays and returns the number of nearby bombs
 def open_cell(x, y):
+    if cells[y][x] == "!":
+        print("Illegal open_cell() invocation")
+        return None
+    elif users_cells[y][x] == "#":
+        num = str(count_nearby_bombs(y, x))
+        users_cells[y][x] = num
+        cells[y][x] = num
+        return num
+    else:
+        return None
+
+
+# Recursive function for opening all the neighboring "zeros"
+def open_zeros(x, y):
+    num = str(count_nearby_bombs(y, x))
+    neighb = get_neighbours(x, y)
+    if num == "0":
+        for n in neighb:
+            if users_cells[n[1]][n[0]] == "#":
+                open_cell(n[0], n[1])
+                print("Opening {} {}".format(n[1], n[0]))
+                if cells[n[1]][n[0]] == "0":
+                    open_zeros(n[0], n[1])
+    else:
+        print("Illegal open_zeros() invocation")
+
+
+# Opens cells and changes data arrays. Returns False if player died and True otherwise.
+def check_cell(x, y):
     if cells[y][x] == "!":
         # Adds a cross on the user's death place.
         cells[y][x] = "X"
         print(output["rip"])
         return False
     else:
-        num = str(count_nearby_bombs(y, x))
-        users_cells[y][x] = num
-        cells[y][x] = num
-        neighb = get_neighbours(x, y)
+        num = open_cell(x, y)
         if num == "0":
-            for n in neighb:
-                users_cells[n[1]][n[0]] = str(count_nearby_bombs(n[1], n[0]))
-                cells[n[1]][n[0]] = str(count_nearby_bombs(n[1], n[0]))
+            open_zeros(x, y)
         else:
+            neighb = get_neighbours(x, y)
             for n in neighb:
                 auto_mark_bomb(n[0], n[1])
         print(output["luck"])
@@ -228,8 +247,7 @@ def check_bombs():
     return number
 
 
-# Checks if user really won. Returns False if not all bombs are found or
-# if some bombs are marked wrong.
+# Checks if user really won. Returns False if not all bombs are found or if some bombs are marked wrong.
 def win():
     win = False
     if check_bombs() == 0:
@@ -242,18 +260,15 @@ def win():
                         win = False
     return win
 
-# The variable initialized as 2 to ask user about language and difficulty
-# right after the game run.
+# The variable initialized as 2 to ask user about language and difficulty right after the game run.
 rep = "2"
-# Game starts here. There is greater loop to restart the game without
-# restarting the program.
+# Game starts here. There is greater loop to restart the game without restarting the program.
 while True:
     if rep == "2":
         output = choose_language()
         level = choose_level()
     # Initialisation of other variables
     bombs = 0
-    cells = []
     size = level["rows"] * level["columns"]
     avail_vert_coord = vertical_coordinates[:level["rows"] * 2]
 
@@ -276,7 +291,7 @@ while True:
         if x[2]:
             success = mark_cell(x[0], x[1])
         else:
-            success = open_cell(x[0], x[1])
+            success = check_cell(x[0], x[1])
         bombs = check_bombs()
         print(output["bombs"].format(bombs))
         if not success:
