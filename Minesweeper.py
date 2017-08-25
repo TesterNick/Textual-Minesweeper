@@ -210,7 +210,6 @@ def open_zeros(x, y):
         for n in neighb:
             if users_cells[n[1]][n[0]] == "#":
                 open_cell(n[0], n[1])
-                print("Opening {} {}".format(n[1], n[0]))
                 if cells[n[1]][n[0]] == "0":
                     open_zeros(n[0], n[1])
     else:
