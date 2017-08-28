@@ -29,11 +29,9 @@ hard = {
     }
 
 
-# Names for columns. There are just 20 names for rows and columns.
-# If you need more, don't hesitate to add it here. Note: users_input
-# function automatically switches the input to lowercase, so if English
-# alphabet is not enough for you, try to expand it with 2-signs names
-# (such as aa, ab and so on)
+# Names for columns. There are just 20 names for columns. If you need more, don't hesitate to add it here.
+# Note: users_input function automatically switches the input to lowercase, so if English alphabet is not enough
+# for you, try to expand it with 2-signs names (such as aa, ab and so on)
 vertical_coordinates = " a b c d e f g h i j k l m n o p q r s t"
 Russian = {
            "already_marked": "Вы уже отметили эту клетку как бомбу! Если вы так больше не думаете, пожалуста снимите метку! ",
