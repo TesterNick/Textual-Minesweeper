@@ -15,17 +15,17 @@ import math
 easy = {
         "rows": 10,
         "columns": 10,
-        "bombs_available": 0.15
+        "bombs_available": 15
     }
 medium = {
         "rows": 15,
         "columns": 15,
-        "bombs_available": 0.2
+        "bombs_available": 40
     }
 hard = {
         "rows": 20,
         "columns": 20,
-        "bombs_available": 0.25
+        "bombs_available": 80
     }
 
 
@@ -34,8 +34,8 @@ hard = {
 # for you, try to expand it with 2-signs names (such as aa, ab and so on)
 vertical_coordinates = " a b c d e f g h i j k l m n o p q r s t"
 Russian = {
-           "already_marked": "Вы уже отметили эту клетку как бомбу! \
-                                Если вы так больше не думаете, пожалуйста снимите метку! ",
+           "already_marked": "Вы уже отметили эту клетку как бомбу! " +
+                             "Если вы так больше не думаете, пожалуйста снимите метку! ",
            "already_opened": "Эта клетка была открыта ранее! Попробуйте другую! ",
            "bombs": "Осталось {} бомб",
            "choose_level": "Пожалуйста выберите уровень сложности: 1 - легкий, 2 - средний, 3 - тяжелый: ",
@@ -50,8 +50,8 @@ Russian = {
            "wrong_input": "Пожалуйста введите правильные координаты. Символы могут идти в любом порядке."
     }
 English = {
-           "already_marked": "You've already marked this cell as a bomb! \
-                                    If you don't think so anymore, take off the mark! ",
+           "already_marked": "You've already marked this cell as a bomb! " +
+                             "If you don't think so anymore, take off the mark! ",
            "already_opened": "This cell is already opened! Please try another one! ",
            "bombs": "There are {} bombs",
            "choose_level": "Please choose the difficulty: 1 - easy, 2 - medium, 3 - hard: ",
@@ -268,12 +268,11 @@ while True:
         level = choose_level()
     # Initialisation of other variables
     bombs = 0
-    size = level["rows"] * level["columns"]
     avail_vert_coord = vertical_coordinates[:level["rows"] * 2]
 
     # Creation of the field with bombs
     cells = [[" " for x in range(level["columns"])] for y in range(level["rows"])]
-    while bombs < (level["bombs_available"] * size):
+    while bombs < level["bombs_available"]:
         i = int(math.floor(random.random() * level["rows"]))
         j = int(math.floor(random.random() * level["columns"]))
         if cells[i][j] != "!":
