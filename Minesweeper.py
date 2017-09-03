@@ -34,7 +34,8 @@ hard = {
 # for you, try to expand it with 2-signs names (such as aa, ab and so on)
 vertical_coordinates = " a b c d e f g h i j k l m n o p q r s t"
 Russian = {
-           "already_marked": "Вы уже отметили эту клетку как бомбу! Если вы так больше не думаете, пожалуста снимите метку! ",
+           "already_marked": "Вы уже отметили эту клетку как бомбу! \
+                                Если вы так больше не думаете, пожалуйста снимите метку! ",
            "already_opened": "Эта клетка была открыта ранее! Попробуйте другую! ",
            "bombs": "Осталось {} бомб",
            "choose_level": "Пожалуйста выберите уровень сложности: 1 - легкий, 2 - средний, 3 - тяжелый: ",
@@ -49,7 +50,8 @@ Russian = {
            "wrong_input": "Пожалуйста введите правильные координаты. Символы могут идти в любом порядке."
     }
 English = {
-           "already_marked": "You've already marked this cell as a bomb! If you don't think so anymore, take off the mark! ",
+           "already_marked": "You've already marked this cell as a bomb! \
+                                    If you don't think so anymore, take off the mark! ",
            "already_opened": "This cell is already opened! Please try another one! ",
            "bombs": "There are {} bombs",
            "choose_level": "Please choose the difficulty: 1 - easy, 2 - medium, 3 - hard: ",
