@@ -11,7 +11,7 @@ import math
 
 
 # There you can change game parameters such as game field width or height
-# or what part of the field will be bombs
+# or how many bombs there are
 easy = {
         "rows": 10,
         "columns": 10,
