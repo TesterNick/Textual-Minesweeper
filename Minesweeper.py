@@ -39,29 +39,60 @@ expert = {
 # for you, try to expand it with 2-signs names (such as aa, ab and so on)
 vertical_coordinates = " a b c d e f g h i j k l m n o p q r s t u v w x y z"
 Russian = {
-           "already_marked": "Вы уже отметили эту клетку как бомбу! " +
-                             "Если вы так больше не думаете, пожалуйста снимите метку! ",
-           "already_opened": "Эта клетка была открыта ранее! Попробуйте другую! ",
+           "already_marked": "Вы уже отметили эту клетку как бомбу!"
+                             "Если вы так больше не думаете, пожалуйста снимите метку!",
+           "already_opened": "Эта клетка была открыта ранее! Попробуйте другую!",
            "bombs": "Осталось {} бомб",
-           "choose_level": "Пожалуйста выберите уровень сложности: "
-                           "1 - легкий, 2 - средний, 3 - сложный, 4 - эксперт:\n",
+           "choose_level": "Пожалуйста выберите уровень сложности:\n"
+                           "1 - легкий, 2 - средний, 3 - сложный, 4 - эксперт.\n"
+                           "Если нужна помощь, помните, вы всегда можете получить ее введя ?:\n",
            "error": "Что-то пошло не так! Отрицательное число бомб! ",
+           "help_level": "В игре 4 уровня сложности. Они отличаются размером игрового поля и\n"
+                         "количеством бомб на нем.\n"
+                         "Легкий: поле 10х10, 15 бомб\n"
+                         "Средний: поле 15х15, 40 бомб\n"
+                         "Сложный: поле 20х20, 80 бомб\n"
+                         "Эксперт: поле 26х26, 160 бомб\n",
+           "help_game": "Со всех сторон игрового поля указаны координаты. Столбцы обозначены\n"
+                        "английскими буквами,строки - арабскими цифрами. Таким образом, координаты\n"
+                        "клетки - это комбинация имени столбца и номера строки, на пересечении\n"
+                        "которых клетка находится. Букву и цифру можно вводить в любом порядке.\n"
+                        "Также не имеет значения, заглавную или строчную букву вы введете. Главное -\n"
+                        "убедитесь, что у вас включена английская раскладка на клавиатуре.\n"
+                        "Для того, чтобы клетку открыть просто наберите соответствующие координаты,\n"
+                        "чтобы отметить ее как имеющую бомбу, добавьте к ним восклицательный знак (!)\n"
+                        "А сейчас нажмите Enter, чтобы вернуться к игре.",
            "luck": "Повезло!",
            "mistake": "Ошибочка вышла",
            "repeat": "Сыграем еще разок?\n1 - с теми же параметрами, 2 - изменить параметры, все остальное - выход:\n",
            "rip": "Пусть земля вам будет пухом...",
-           "too_much": "Нельзя отметить бомбами больше клеток, чем бомб на поле! ",
+           "too_much": "Нельзя отметить бомбами больше клеток, чем бомб на поле!",
            "users_turn": "Введите координаты клетки, которую вы хотите открыть (х) или отметить (х!): ",
-           "won": "Поздравляем! Вы выиграли! ",
+           "won": "Поздравляем! Вы выиграли!",
            "wrong_input": "Пожалуйста введите правильные координаты. Символы могут идти в любом порядке."
     }
 English = {
-           "already_marked": "You've already marked this cell as a bomb! " +
+           "already_marked": "You've already marked this cell as a bomb! "
                              "If you don't think so anymore, take off the mark! ",
            "already_opened": "This cell is already opened! Please try another one! ",
            "bombs": "There are {} bombs",
-           "choose_level": "Please choose the difficulty: 1 - easy, 2 - medium, 3 - hard, 4 - expert:\n",
+           "choose_level": "Please choose the difficulty: 1 - easy, 2 - medium, 3 - hard, 4 - expert.\n"
+                           "If you need help, you always can input ?:\n",
            "error": "Something went wrong! There are negative number of bombs! ",
+           "help_level": "There are 4 difficulty levels. They have different size of the game field\n"
+                         "and different amount of bombs on it.\n"
+                         "Easy: field 10x10, 15 bombs\n"
+                         "Medium: field 15x15, 40 bombs\n"
+                         "Hard: field 20x20, 80 bombs\n"
+                         "Expert: field 26x26, 160 bombs\n",
+           "help_game": "There are letters and numbers around the game field. Letters represents\n"
+                        "column names and numbers - row names. Every cell is located on the\n"
+                        "intersection of a row and a column. The names of the row and the column\n"
+                        "combined make the cell's coordinates. You can input the letter and\n"
+                        "the number in any order. Also, input is case-insensitive.\n"
+                        "If you want to open a cell, just type it's coordinates. If you need to mark\n"
+                        "the cell as a bomb, add an exclamation mark (!) to the coordinates.\n"
+                        "Press Enter key to return to the game.",
            "luck": "You are lucky!",
            "mistake": "There's a mistake...",
            "repeat": "Would you like to play one more time?\n1 - yes, 2 - change settings, anything else - exit:\n",
@@ -93,8 +124,12 @@ def choose_language():
 def choose_level():
     lvl = None
     while lvl is None:
+        raw_input = input(output["choose_level"])
+        if "?" in raw_input:
+            print(output["help_level"])
+            continue
         try:
-            x = int(input(output["choose_level"]))
+            x = int(raw_input)
         except (ValueError, TypeError):
             continue
         if x == 1:
@@ -168,6 +203,8 @@ def users_input():
     while True:
         x = y = None
         inp = (input(output["users_turn"])).lower()
+        if "?" in inp:
+            return "?"
         mark = "!" in inp
         for letter in avail_vert_coord:
             if letter in inp:
@@ -297,7 +334,10 @@ while True:
     while bombs > 0:
         print_array(users_cells)
         x = users_input()
-        if x[2]:
+        if x == "?":
+            input(output["help_game"])
+            success = True
+        elif x[2]:
             success = mark_cell(x[0], x[1])
         else:
             success = check_cell(x[0], x[1])
