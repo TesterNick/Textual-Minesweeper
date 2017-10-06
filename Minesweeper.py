@@ -27,18 +27,24 @@ hard = {
         "columns": 20,
         "bombs_available": 80
     }
+expert = {
+        "rows": 26,
+        "columns": 26,
+        "bombs_available": 160
+    }
 
 
-# Names for columns. There are just 20 names for columns. If you need more, don't hesitate to add it here.
+# Names for columns. There are just 26 names for columns. If you need more, don't hesitate to add it here.
 # Note: users_input function automatically switches the input to lowercase, so if English alphabet is not enough
 # for you, try to expand it with 2-signs names (such as aa, ab and so on)
-vertical_coordinates = " a b c d e f g h i j k l m n o p q r s t"
+vertical_coordinates = " a b c d e f g h i j k l m n o p q r s t u v w x y z"
 Russian = {
            "already_marked": "Вы уже отметили эту клетку как бомбу! " +
                              "Если вы так больше не думаете, пожалуйста снимите метку! ",
            "already_opened": "Эта клетка была открыта ранее! Попробуйте другую! ",
            "bombs": "Осталось {} бомб",
-           "choose_level": "Пожалуйста выберите уровень сложности: 1 - легкий, 2 - средний, 3 - сложный: ",
+           "choose_level": "Пожалуйста выберите уровень сложности: "
+                           "1 - легкий, 2 - средний, 3 - сложный, 4 - эксперт:\n",
            "error": "Что-то пошло не так! Отрицательное число бомб! ",
            "luck": "Повезло!",
            "mistake": "Ошибочка вышла",
@@ -54,7 +60,7 @@ English = {
                              "If you don't think so anymore, take off the mark! ",
            "already_opened": "This cell is already opened! Please try another one! ",
            "bombs": "There are {} bombs",
-           "choose_level": "Please choose the difficulty: 1 - easy, 2 - medium, 3 - hard: ",
+           "choose_level": "Please choose the difficulty: 1 - easy, 2 - medium, 3 - hard, 4 - expert:\n",
            "error": "Something went wrong! There are negative number of bombs! ",
            "luck": "You are lucky!",
            "mistake": "There's a mistake...",
@@ -97,17 +103,22 @@ def choose_level():
             lvl = medium
         elif x == 3:
             lvl = hard
+        elif x == 4:
+            lvl = expert
     return lvl
 
 
 # Pretty print for data array with coordinates.
 def print_array(array):
-    print("  " + avail_vert_coord)
+    vcoord = "  " + avail_vert_coord
+    print(vcoord)
     for i in range(level["columns"]):
         num = str(i + 1)
         if len(num) == 1:
             num = " " + num
-        print(num + " " + " ".join(array[i]))
+        field_line = " ".join(array[i])
+        print("{0} {1} {0}".format(num, field_line))
+    print(vcoord)
 
 
 # Counts bombs near the chosen cell. Returns the number of bombs.
