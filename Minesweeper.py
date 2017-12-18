@@ -1,17 +1,13 @@
 """
 This is textual version of popular game Minesweeper.
-
-Now you can play the game on your job even if sysadmins deleted
-all the games before you got your computer :)
-
+Now you can play the game on your job even if sysadmins deleted all the games before you got your computer :)
 If you find some typos or bugs please don't hesitate to report them.
 """
 import random
 import math
 
 
-# There you can change game parameters such as game field width or height
-# or how many bombs there are
+# There you can change game parameters such as game field width or height or how many bombs there are
 easy = {
         "rows": 10,
         "columns": 10,
@@ -147,7 +143,7 @@ def choose_level():
 def print_array(array):
     vcoord = "  " + avail_vert_coord
     print(vcoord)
-    for i in range(level["columns"]):
+    for i in range(level["rows"]):
         num = str(i + 1)
         if len(num) == 1:
             num = " " + num
@@ -209,7 +205,7 @@ def users_input():
         for letter in avail_vert_coord:
             if letter in inp:
                 x = int((avail_vert_coord.index(letter) - 1) / 2)
-        for num in range(level["columns"], 0, -1):
+        for num in range(level["rows"], 0, -1):
             if str(num) in inp:
                 y = int(num) - 1
                 break
@@ -307,6 +303,7 @@ def win():
                         win = False
     return win
 
+
 # The variable initialized as 2 to ask user about language and difficulty right after the game run.
 rep = "2"
 # Game starts here. There is greater loop to restart the game without restarting the program.
@@ -316,7 +313,7 @@ while True:
         level = choose_level()
     # Initialisation of other variables
     bombs = 0
-    avail_vert_coord = vertical_coordinates[:level["rows"] * 2]
+    avail_vert_coord = vertical_coordinates[:level["columns"] * 2]
 
     # Creation of the field with bombs
     cells = [[" " for x in range(level["columns"])] for y in range(level["rows"])]
