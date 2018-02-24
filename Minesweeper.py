@@ -156,8 +156,8 @@ def print_array(array):
 def count_nearby_bombs(y, x):
     number = 0
     neighbours = get_neighbours(x, y)
-    for n in neighbours:
-        if cells[n[1]][n[0]] == "!":
+    for nx, ny in neighbours:
+        if cells[ny][nx] == "!":
             number += 1
     return number
 
@@ -179,17 +179,17 @@ def get_neighbours(x, y):
 def auto_mark_bomb(x, y):
     neighb = get_neighbours(x, y)
     # For each neighbour checks if it is a bomb and if it is not marked.
-    for n in neighb:
-        bomb = (cells[n[1]][n[0]] == "!" and users_cells[n[1]][n[0]] != "!")
+    for nx, ny in neighb:
+        bomb = (cells[ny][nx] == "!" and users_cells[ny][nx] != "!")
         if bomb:
             # Checks cells around the neighbour and if it has closed cells that are not bombs returns False.
-            around = get_neighbours(n[0], n[1])
+            around = get_neighbours(nx, ny)
             for cell in around:
                 closed = (users_cells[cell[1]][cell[0]] == "#")
                 bomb = (cells[cell[1]][cell[0]] == "!")
                 if closed and not bomb:
                     return False
-            users_cells[n[1]][n[0]] = "!"
+            users_cells[ny][nx] = "!"
             return True
 
 
@@ -248,14 +248,12 @@ def open_cell(x, y):
 
 # Recursive function for opening all the neighboring "zeros"
 def open_zeros(x, y):
-    num = str(count_nearby_bombs(y, x))
-    neighb = get_neighbours(x, y)
-    if num == "0":
-        for n in neighb:
-            if users_cells[n[1]][n[0]] == "#":
-                open_cell(n[0], n[1])
-                if cells[n[1]][n[0]] == "0":
-                    open_zeros(n[0], n[1])
+    if count_nearby_bombs(y, x) == 0:
+        for nx, ny in get_neighbours(x, y):
+            if users_cells[ny][nx] == "#":
+                open_cell(nx, ny)
+                if cells[ny][nx] == "0":
+                    open_zeros(nx, ny)
     else:
         print("Illegal open_zeros() invocation")
 
@@ -273,8 +271,8 @@ def check_cell(x, y):
             open_zeros(x, y)
         else:
             neighb = get_neighbours(x, y)
-            for n in neighb:
-                auto_mark_bomb(n[0], n[1])
+            for nx, ny in neighb:
+                auto_mark_bomb(nx, ny)
         print(output["luck"])
         return True
 
