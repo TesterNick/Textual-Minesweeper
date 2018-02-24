@@ -144,11 +144,9 @@ def print_array(array):
     vcoord = "  " + avail_vert_coord
     print(vcoord)
     for i in range(level["rows"]):
-        num = str(i + 1)
-        if len(num) == 1:
-            num = " " + num
+        num = i + 1
         field_line = " ".join(array[i])
-        print("{0} {1} {0}".format(num, field_line))
+        print("{0:2} {1} {0:2}".format(num, field_line))
     print(vcoord)
 
 
