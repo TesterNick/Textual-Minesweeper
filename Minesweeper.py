@@ -1,3 +1,5 @@
+#!/usr/bin/env python3
+
 """
 This is textual version of popular game Minesweeper.
 Now you can play the game on your job even if sysadmins deleted all the games before you got your computer :)
